@@ -32,7 +32,7 @@ class Mkdir(name: String) extends Command {
     val wd = state.workingDirectory
     val fullPath = wd.path
 
-    val allDirsInPath = wd.getAllDirectoriesInPath
+    val allDirsInPath = wd.allDirectoriesInPath
     val newDir = Directory.empty(fullPath, name)
     val newRoot = updateStructure(state.root, allDirsInPath, newDir)
     val newWorkingDirectory = newRoot.asDirectory.findDescendant(allDirsInPath)

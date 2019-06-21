@@ -10,6 +10,8 @@ trait Command {
 object Command {
   val MKDIR = "mkdir"
   val LS = "ls"
+  val PWD = "pwd"
+  val CD = "cd"
 
   def emptyCommand: Command =
     (state: State) => state.setMessage("")
@@ -27,6 +29,11 @@ object Command {
       }
       else if (LS.equals(tokens(0))) {
         Ls(tokens(0))
+      } else if (PWD.equals(tokens(0))) {
+        Pwd()
+      } else if (CD.equals(tokens(0))) {
+        if (tokens.length < 2) incompleteCommand(CD)
+        else Cd(tokens(1))
       }
       else new UnknownCommand
     }

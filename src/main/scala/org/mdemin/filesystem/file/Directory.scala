@@ -2,9 +2,9 @@ package org.mdemin.filesystem.file
 
 import scala.annotation.tailrec
 
-class Directory(override val parentPath: String,
-                override val name: String,
-                val contents: List[DirEntry]) extends DirEntry(parentPath, name) {
+case class Directory(override val parentPath: String,
+                     override val name: String,
+                     contents: List[DirEntry]) extends DirEntry(parentPath, name) {
   def addEntry(newEntry: DirEntry): DirEntry =
     new Directory(parentPath, name, contents :+ newEntry)
 
@@ -27,13 +27,13 @@ class Directory(override val parentPath: String,
       recurse(nextLevelDir, allDirsInPath.drop(1))
     }
 
-    recurse(this, allDirsInPath)
+    recurse(currentDir = this, allDirsInPath)
   }
 
   def hasEntry(name: String): Boolean = contents.exists(dir => dir.name.equals(name))
 
-  def getAllDirectoriesInPath(): List[String] =
-    path.substring(1).split(Directory.SEPARATOR).toList.drop(1)
+  def allDirectoriesInPath(): List[String] =
+    path.split(Directory.SEPARATOR).toList.drop(1)
 
   override def asDirectory: Directory = this
 }
